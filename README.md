@@ -2,6 +2,8 @@
 
 **Supervisor** is a library which helps you to manage your supervisor instance.
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f96ff653-b628-4164-bbff-4ffd559e45b4/small.png)](https://insight.sensiolabs.com/projects/f96ff653-b628-4164-bbff-4ffd559e45b4)
+
 ## Basic Usage
 ```php
 <?php
