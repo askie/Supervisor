@@ -40,7 +40,7 @@ class Supervisor
 
         $this->rpcClient = new RpcClient('http://'.$ipAddress.':'.$port.'/RPC2/');
 
-        if ($username != null and $password != null) {
+        if ($username != null && $password != null) {
             $this->rpcClient->getHttpClient()->setAuth($username, $password, HttpClient::AUTH_BASIC);
         }
 
