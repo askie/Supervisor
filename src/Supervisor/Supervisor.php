@@ -100,16 +100,22 @@ class Supervisor
     /**
      * getProcesses
      *
+     * @param array $groups Only show processes in these process groups.
+     *
      * @return Process[]
      */
-    public function getProcesses()
+    public function getProcesses($groups = array())
     {
         $processes = array();
 
         $result = $this->rpcClient->call('supervisor.getAllProcessInfo');
         foreach ($result as $cnt => $process) {
-            $processes[$cnt] = new Process($process['name'], $process['group'], $this->rpcClient);
+            // Skip process when process group not listed in $groups
+            if (!empty($groups) && !in_array($process['group'], $groups)) {
+                continue;
+            }
 
+            $processes[$cnt] = new Process($process['name'], $process['group'], $this->rpcClient);
         }
 
         return $processes;
@@ -217,6 +223,19 @@ class Supervisor
     }
 
     /**
+     * Start all processes in a specific process group.
+     *
+     * @param string $group Process group name
+     * @param boolean $wait Wait for each process to be fully started
+     *
+     * @return array result An array containing start statuses
+     */
+    public function startProcessGroup($group, $wait = true)
+    {
+        return $this->rpcClient->call('supervisor.startProcessGroup', array($group, $wait));
+    }
+
+    /**
      * Stop all processes listed in the configuration file
      *
      * @param boolean $wait Wait for each process to be fully stoped
@@ -226,6 +245,19 @@ class Supervisor
     public function stopAllProcesses($wait = true)
     {
         return $this->rpcClient->call('supervisor.stopAllProcesses', array($wait));
+    }
+
+    /**
+     * Stop all processes in a specific process group.
+     *
+     * @param string $group Process group name
+     * @param boolean $wait Wait for each process to be fully started
+     *
+     * @return array result An array containing start statuses
+     */
+    public function stopProcessGroup($group, $wait = true)
+    {
+        return $this->rpcClient->call('supervisor.stopProcessGroup', array($group, $wait));
     }
 
     /**
