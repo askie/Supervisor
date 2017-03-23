@@ -282,4 +282,9 @@ class Supervisor
     {
         return $this->rpcClient->call('supervisor.clearAllProcessLogs');
     }
+    
+    public function reloadConfig()
+    {
+        return $this->rpcClient->call('supervisor.reloadConfig');
+    }
 }
